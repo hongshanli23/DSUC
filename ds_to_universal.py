@@ -4,8 +4,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # DeepSpeed Team
-import ipdb
-
 from functools import partial
 from itertools import chain
 import argparse
@@ -159,7 +157,6 @@ def extract_zero_shards_stage3(optim_files, param_shapes, dp_degree, temp_dir, d
         fp32=state_dict[OPTIMIZER_STATE_DICT]['fp32_flat_groups'][0],
     )
 
-    ipdb.set_trace()
     offset = 0
     for name, shape in param_shapes.items():
         unpartitioned_numel = shape.numel()
