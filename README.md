@@ -32,11 +32,11 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 deepspeed train.py --resume \
     --run_name resume_no_uc
 ```
 Result of the sanity test:
+![](./assets/default_resume_no_uc.png)
 
-<ADD IMAGE HERE>
 
-
-Convert the zero checkpoint at step 100 to universal checkpoint
+To use UC, convert the zero checkpoint at step 100 to universal checkpoint 
+with 
 ```
 python ds_to_universal.py \
     --input_folder ds_transformer_checkpoint/global_step100/ \
@@ -60,13 +60,11 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 deepspeed train.py --resume \
 After resuming from UC without changing the cluster size (hence 
 gradient accumulation steps), the loss tracks as expected. This means
 the universal checkpoint is correctly created
-
+![](./assets/default_uc_4gpu.png)
 <Add image here> 
 
 
 ## Test 2. Gradient accumulation (GA) with deepspeed
-
-
 ### Pytorch Implementation of gradient accumulation
 With vanilla pytorch, you can only call `optimizer.step` once per 
 optimization step and before updating the parameter, you will need
@@ -90,8 +88,7 @@ python grad_accu_pt.py --steps 100 \
 ```
 
 The loss from both experiment matchs
-
-<Add image here>
+![](./assets/grad_accu_4_pt_no_grad_accu.png)
 
 
 ### DeepSpeed speed implementation of gradient accumulation 
@@ -127,7 +124,7 @@ CUDA_VISIBLE_DEVICES=0,1 deepspeed grad_accu_ds.py --steps 100 \
 ```
 
 Loss for all the experiments above matches
-
+![](./assets/ds_grad_no_uc.png)
 
 ## Test 3. UC + GA
 In the last demo, we resume from the universal checkpoint produced in Test 1 with 2 GPUs. This means the we will double the gradient 
@@ -146,7 +143,8 @@ CUDA_VISIBLE_DEVICES=0,1 deepspeed train.py --resume \
     --checkpoint_interval 400 
 ```
 
-The loss tracks 
-
+The loss tracks with the baseline run from test 1
+![](./assets/ds_uc_grac_accu.png
+)
 
 
